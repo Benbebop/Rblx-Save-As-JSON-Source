@@ -1,5 +1,4 @@
-return {
-	["encode"] = {
+return {["encode"] = {
 		["Axes"] = function(v)return {v.X, v.Y, v.Z, v.Top, v.Bottom, v.Left, v.Right, v.Back, v.Front} end,
 		["BrickColor"] = function(v)return tostring(v) end,
 		["boolean"] = function(v)return v end,
