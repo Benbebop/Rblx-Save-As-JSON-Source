@@ -8,13 +8,14 @@ Source.lua is the raw source code, nothing added or modified.
 
 Module.lua is for use in-game, in a module script. 
 
-First get the latest API dump, fetch the current [version hash](http://setup.roblox.com/versionQTStudio) then fetch the latest API dump by replacing **<HASH\>** in the following URL with the retrieved version hash:
+First get the latest API dump.
+
+Fetch the current [version hash](http://setup.roblox.com/versionQTStudio) then fetch the latest API dump by replacing **<HASH\>** in the following URL with the retrieved version hash:
   
 `http://setup.roblox.com/<HASH>-API-Dump.json`
 
 Then require Module.lua and call `setup()`.
 
-*Ex.*
 ```lua
 local saveAsJSON = require(module)
 
@@ -23,7 +24,6 @@ saveAsJSON:setup(dumpContent)
 
 You can now use ether `decode()` or `encode()` depending on what you want.
 
-*Ex.*
 ```lua
 local saveAsJSON = require(module)
 
