@@ -1,4 +1,4 @@
-local httpService = game:GetService("HttpService") -- Requires HTTPService but whatever I'm not coding around it
+local httpService = game:GetService("HttpService")
 local studioservice = game:GetService("StudioService")
 
 local compressQuality = 0
