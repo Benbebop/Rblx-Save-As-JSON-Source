@@ -2,11 +2,11 @@
 
 ## Source.lua
 
-Source.lua is the raw source code, nothing added or modified.
+[Source.lua](main/Source.lua) is the raw source code, nothing added or modified.
 
 ## Module.lua
 
-Module.lua is for use in-game, in a module script. 
+[Module.lua](main/Module.lua) is for use in-game, in a module script. 
 
 First get the latest API dump.
 
@@ -43,6 +43,6 @@ saveAsJSON:decode(JSONData)
 
 ## jsonExtendedDataTypes.lua
 
-jsonExtendedDataTypes is all the functions I use to convert Roblox data types to JSON compatable data types. This is applicable to any JSON project, that's why its a seperate script.
+[jsonExtendedDataTypes.lua](jsonExtendedDataTypes.lua) is all the functions I use to convert Roblox data types to JSON compatable data types. This is applicable to any JSON project, that's why its a seperate script.
 
 Require the module then index the functions via whatever `typeOf(value)` spits out.
