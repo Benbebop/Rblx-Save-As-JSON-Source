@@ -1,4 +1,4 @@
-local httpService = game:GetService("HttpService")
+local httpService = game:GetService("HttpService") -- Requires HTTPService but whatever I'm not coding around it
 local studioservice = game:GetService("StudioService")
 
 local compressQuality = 0
@@ -360,7 +360,11 @@ local jsonImport = toolbar:CreateButton("Import JSON File", "Import a JSON hiera
 
 jsonImport.ClickableWhenViewportHidden = true
 
-local copyWidget = plugin:CreateDockWidgetPluginGui("copyWidget", DockWidgetPluginGuiInfo.new(Enum.InitialDockState.Float, true, false, 200, 100))
+local GitHub = toolbar:CreateButton("View Source Code", "", "rbxassetid://6357471307")
+
+GitHub.ClickableWhenViewportHidden = true
+
+local copyWidget = plugin:CreateDockWidgetPluginGui("copyWidget", DockWidgetPluginGuiInfo.new(Enum.InitialDockState.Float, false, false, 200, 100))
 
 copyWidget.Title = "JSON Data"
 
@@ -378,6 +382,18 @@ Box.TextTruncate = Enum.TextTruncate.AtEnd
 local Size = Instance.new("TextLabel", copyWidget)
 Size.BackgroundTransparency = 1
 Size.Size = UDim2.new(1,0,0,14)
+
+local GitHubWidget = plugin:CreateDockWidgetPluginGui("GitHubWidget", DockWidgetPluginGuiInfo.new(Enum.InitialDockState.Float, false, false, 500, 14, 500, 14))
+
+GitHubWidget.Title = "Link"
+
+local LinkBox = Instance.new("TextBox", GitHubWidget)
+LinkBox.TextEditable = false
+LinkBox.ClearTextOnFocus = false
+LinkBox.BackgroundTransparency = 1
+LinkBox.TextXAlignment = Enum.TextXAlignment.Left
+LinkBox.Size = UDim2.new(1,0,0,14)
+LinkBox.Text = "https://github.com/Benbebop/Rblx-Save-As-JSON-Source.git"
 
 function update(value) -- Update JSON interface
 	Box.Text = string.sub(value, 1, scriptSourceLimit)
@@ -556,15 +572,10 @@ jsonImport.Click:Connect(function()
 	if file ~= nil then
 		local content = httpService:JSONDecode(file:GetBinaryContents())
 		local localIndex = {}
-		local parented = {}
 		for i,v in pairs(content) do
 			local bool, object = pcall(function()return Instance.new(v.ClassName) end)
 			if bool then
-				localIndex[i] = object
-				if content[v.Parent] == nil then
-					object.Parent = workspace
-					parented[i] = workspace
-				end
+				localIndex[i] = {["instance"] = object, ["parent"] = v.Parent}
 				for l,k in pairs(v) do
 					if l ~= "Parent" then
 						local bool, result = pcall(dataTypeFunctions.decode[typeof(object[l])], k)
@@ -576,10 +587,16 @@ jsonImport.Click:Connect(function()
 			end
 		end
 		for i,v in pairs(localIndex) do
-			local bool, result = pcall(function()assert(localIndex[content[i]]) end)
-			if bool then
-				v.Parent = localIndex[content[i]]
+			if pcall(function() assert(localIndex[v["parent"]]["instance"]) end) then
+				v.instance.Parent = localIndex[v.parent].instance
+			elseif v.parent ~= nil then
+				v.instance.Parent = workspace
 			end
 		end
 	end
+end)
+
+GitHub.Click:Connect(function() 
+	GitHubWidget.Enabled = true
+	GitHub:SetActive(false)
 end)
